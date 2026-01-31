@@ -707,6 +707,215 @@ export const Button: React.FC<ButtonProps> = ({
       "4. ANIMATION: Smooth and purposeful?",
       "5. CONSISTENCY: Matches design system?"
     ]
+  },
+
+  // Research & Data Collection Agents
+  scout: {
+    examples: `
+\`\`\`typescript
+// Web Scout — Web scraping with Crawl4AI / Puppeteer
+
+import { Crawler } from 'crawl4ai';
+
+const crawler = new Crawler({
+  headless: true,
+  respectRobotsTxt: true,  // Always check robots.txt!
+  maxConcurrency: 3,
+  timeout: 30000
+});
+
+async function scrapeJobListings(url: string) {
+  const result = await crawler.crawl(url);
+  
+  if (!result.success) {
+    console.error('Failed:', result.error);
+    return [];
+  }
+
+  return result.document.querySelectorAll('.job-card')
+    .map(job => ({
+      title: job.querySelector('.job-title')?.textContent?.trim(),
+      company: job.querySelector('.company-name')?.textContent?.trim(),
+      link: job.querySelector('a')?.getAttribute('href'),
+      scrapedAt: new Date().toISOString()
+    }));
+}
+
+// Puppeteer for dynamic sites
+import puppeteer from 'puppeteer';
+
+async function scrapeWithPuppeteer(url: string) {
+  const browser = await puppeteer.launch({ headless: 'new' });
+  const page = await browser.newPage();
+  
+  await page.goto(url, { waitUntil: 'networkidle2' });
+  await page.waitForSelector('.job-list', { timeout: 10000 });
+  
+  const data = await page.evaluate(() => 
+    Array.from(document.querySelectorAll('.job-item'))
+      .map(el => ({
+        title: el.querySelector('h2')?.innerText,
+        link: el.querySelector('a')?.href
+      }))
+  );
+  
+  await browser.close();
+  return data;
+}
+\`\`\``,
+    guidelines: [
+      "ALWAYS check robots.txt before scraping",
+      "Use delays between requests (1-3 sec)",
+      "Respect rate limits and User-Agent policies",
+      "Log all requests for debugging"
+    ],
+    operationalStandards: [
+      "Check robots.txt: \`curl https://site.com/robots.txt\`",
+      "Test selectors in DevTools Console",
+      "Save raw data before processing"
+    ],
+    chainOfThought: [
+      "1. LEGAL: Is scraping allowed on this site?",
+      "2. STRUCTURE: What is the HTML structure of target data?",
+      "3. DYNAMIC: Does the site require JS rendering?",
+      "4. PAGINATION: How to handle multiple pages?",
+      "5. STORAGE: Where to save results?"
+    ]
+  },
+
+  analyst: {
+    examples: `
+\`\`\`typescript
+// Data Analyst — Структурирование и анализ данных
+
+import { z } from 'zod';
+
+const JobSchema = z.object({
+  title: z.string().min(1),
+  company: z.string().min(1),
+  salary: z.object({
+    min: z.number().optional(),
+    max: z.number().optional(),
+    currency: z.string().default('USD')
+  }).optional(),
+  skills: z.array(z.string()),
+  experience: z.enum(['junior', 'middle', 'senior', 'lead']).optional(),
+  remote: z.boolean().default(false)
+});
+
+function parseRawJobText(raw: string) {
+  const salaryMatch = raw.match(/USD\\s*([\\d,]+)\\s*-\\s*([\\d,]+)/i);
+  const salary = salaryMatch ? {
+    min: parseInt(salaryMatch[1].replace(/,/g, '')),
+    max: parseInt(salaryMatch[2].replace(/,/g, '')),
+    currency: 'USD'
+  } : undefined;
+
+  const techStack = ['react', 'typescript', 'python', 'node', 'aws'];
+  const skills = techStack.filter(s => raw.toLowerCase().includes(s));
+
+  return { salary, skills, remote: raw.includes('remote') };
+}
+
+function filterAndRankJobs(jobs: Job[], criteria: { minSalary?: number }) {
+  return jobs
+    .filter(job => !criteria.minSalary || (job.salary?.min || 0) >= criteria.minSalary)
+    .sort((a, b) => (b.salary?.max || 0) - (a.salary?.max || 0));
+}
+\`\`\``,
+    guidelines: [
+      "Always validate data with Zod schemas",
+      "Keep raw data separate from processed data",
+      "Document input/output formats",
+      "Log data quality metrics"
+    ],
+    operationalStandards: [
+      "Run validation: \`npm run validate-data\`",
+      "Check field coverage: \`npm run data-quality\`",
+      "Export to JSON/CSV: \`npm run export\`"
+    ],
+    chainOfThought: [
+      "1. SCHEMA: What structure is needed for output?",
+      "2. PARSING: How to extract data from raw text?",
+      "3. VALIDATION: How to verify correctness?",
+      "4. ENRICHMENT: Does data need augmentation?",
+      "5. OUTPUT: What format to save in?"
+    ]
+  },
+
+  integrator: {
+    examples: `
+\`\`\`typescript
+// Cloud Integrator — Google Drive, Notion, Slack APIs
+
+// === GOOGLE DRIVE ===
+import { google } from 'googleapis';
+
+const auth = new google.auth.GoogleAuth({
+  keyFile: process.env.GOOGLE_SERVICE_ACCOUNT_KEY,
+  scopes: ['https://www.googleapis.com/auth/drive.file']
+});
+
+const drive = google.drive({ version: 'v3', auth });
+
+async function uploadToDrive(filePath: string, folderId: string) {
+  const response = await drive.files.create({
+    requestBody: { name: path.basename(filePath), parents: [folderId] },
+    media: { mimeType: 'application/json', body: fs.createReadStream(filePath) },
+    fields: 'id, webViewLink'
+  });
+  return response.data.webViewLink;
+}
+
+// === NOTION ===
+import { Client } from '@notionhq/client';
+
+const notion = new Client({ auth: process.env.NOTION_TOKEN });
+
+async function createNotionPage(databaseId: string, data: JobData) {
+  return await notion.pages.create({
+    parent: { database_id: databaseId },
+    properties: {
+      'Title': { title: [{ text: { content: data.title } }] },
+      'Salary': { number: data.salary || 0 },
+      'Remote': { checkbox: data.remote }
+    }
+  });
+}
+
+// === SLACK ===
+import { WebClient } from '@slack/web-api';
+
+const slack = new WebClient(process.env.SLACK_TOKEN);
+
+async function notifySlack(channel: string, message: string) {
+  await slack.chat.postMessage({ channel, text: message });
+}
+\`\`\``,
+    guidelines: [
+      "NEVER store API keys in code — use .env only",
+      "Use service accounts for Google APIs",
+      "Check permissions before operations",
+      "Log all API calls for audit"
+    ],
+    operationalStandards: [
+      "Test connection: \`npm run test:integrations\`",
+      "Refresh tokens: \`npm run refresh-tokens\`",
+      "Test OAuth: \`npm run auth:test\`"
+    ],
+    chainOfThought: [
+      "1. AUTH: What auth type is needed (OAuth, API key, Service Account)?",
+      "2. SCOPE: What permissions are required?",
+      "3. FORMAT: What data format to send?",
+      "4. RATE LIMITS: What are the API limits?",
+      "5. ERROR HANDLING: How to handle API errors?"
+    ],
+    securityNotes: [
+      "Store credentials in secret manager (not .env in production)",
+      "Use minimal required scopes",
+      "Rotate tokens every 90 days",
+      "Log all operations for audit"
+    ]
   }
 };
 

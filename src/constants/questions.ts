@@ -158,7 +158,12 @@ export const QUESTIONS: Question[] = [
 
             // Documentation & UX
             { id: "documenter", label: "Tech Writer", desc: "Internal & external documentation", icon: "file-text" },
-            { id: "ui_specialist", label: "UI/UX Auditor", desc: "Accessibility & layout consistency", icon: "clapperboard" }
+            { id: "ui_specialist", label: "UI/UX Auditor", desc: "Accessibility & layout consistency", icon: "clapperboard" },
+
+            // Research & Data Collection
+            { id: "scout", label: "Web Scout", desc: "Поиск вакансий, скрапинг и глубокий сбор данных с веб-сайтов", icon: "search" },
+            { id: "analyst", label: "Data Analyst", desc: "Структурирование данных, фильтрация вакансий и подготовка выводов", icon: "bar-chart" },
+            { id: "integrator", label: "Cloud Integrator", desc: "Интеграция с API: Google Drive, Notion, Slack", icon: "cloud-upload" }
         ]
     },
     {

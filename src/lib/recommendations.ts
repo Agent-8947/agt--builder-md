@@ -557,6 +557,23 @@ export const getRecommendation = (
             if (idea.includes("deploy") || idea.includes("ci") || idea.includes("cloud") || idea.includes("деплой") || idea.includes("docker")) {
                 agents.push("devops");
             }
+
+            // New: Scout и Analyst для задач сбора данных
+            if (idea.includes("вакансии") || idea.includes("vacancy") || idea.includes("job") ||
+                idea.includes("поиск") || idea.includes("search") || idea.includes("сбор") ||
+                idea.includes("скрапинг") || idea.includes("scraping") || idea.includes("парс") ||
+                idea.includes("crawl") || idea.includes("данные с сайт")) {
+                agents.push("scout");
+                agents.push("analyst");
+            }
+
+            // New: Integrator для облачных интеграций
+            if (idea.includes("drive") || idea.includes("гугл") || idea.includes("google") ||
+                idea.includes("сохранить на диск") || idea.includes("notion") || idea.includes("slack") ||
+                idea.includes("интеграци") || idea.includes("integration") || idea.includes("api")) {
+                agents.push("integrator");
+            }
+
             if (q1 === "saas" || q1 === "web_full") {
                 if (!agents.includes("tester")) agents.push("tester");
             }
