@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
 import { useStore } from "@/store/useStore";
+import { QUESTIONS } from "@/constants/questions";
 import { WelcomeScreen } from "@/components/WelcomeScreen";
 import { QuestionCard } from "@/components/QuestionCard";
 import { LoadingScreen } from "@/components/LoadingScreen";
@@ -64,17 +64,17 @@ export default function Home() {
               <WelcomeScreen />
             </motion.div>
           )}
-          {step >= 0 && step < 20 && (
+          {step >= 0 && step < QUESTIONS.length && (
             <motion.div key="questions" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9 }}>
               <QuestionCard />
             </motion.div>
           )}
-          {step === 20 && (
+          {step === 100 && (
             <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
               <LoadingScreen />
             </motion.div>
           )}
-          {step === 21 && (
+          {step === 101 && (
             <motion.div key="result" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
               <ResultScreen />
             </motion.div>

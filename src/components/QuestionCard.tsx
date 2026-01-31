@@ -20,21 +20,20 @@ export const QuestionCard = () => {
 
     const progress = ((step + 1) / QUESTIONS.length) * 100;
     const currentAnswer = answers[question.id];
-    const recommendation = getRecommendation(question.id, answers);
+    const recommendation = getRecommendation(question.id, answers, language);
 
-    const OTHER_LABELS = ["Other (custom)", "Другое (свой вариант)", "Інше (свій варіант)"];
 
-    const isOtherSelected = typeof currentAnswer === 'string' && OTHER_LABELS.includes(currentAnswer);
-    const isCustomActive = isOtherSelected || (question.allowCustom && typeof currentAnswer === 'string' && !question.options.some(o => o.label === currentAnswer));
+    const isOtherSelected = currentAnswer === 'other';
+    const isCustomActive = isOtherSelected || (question.allowCustom && typeof currentAnswer === 'string' && !question.options.some(o => o.id === currentAnswer));
 
-    const handleSelect = (label: string) => {
+    const handleSelect = (id: string) => {
         if (question.type === "single") {
-            setAnswer(question.id, label);
+            setAnswer(question.id, id);
         } else {
             const current = Array.isArray(currentAnswer) ? currentAnswer : [];
-            const updated = current.includes(label)
-                ? current.filter((v: string) => v !== label)
-                : [...current, label];
+            const updated = current.includes(id)
+                ? current.filter((v: string) => v !== id)
+                : [...current, id];
             setAnswer(question.id, updated);
         }
     };
@@ -43,14 +42,10 @@ export const QuestionCard = () => {
         if (!recommendation) return;
 
         if (question.type === "single") {
-            const option = question.options.find(o => o.id === recommendation.id);
-            if (option) setAnswer(question.id, option.label);
+            setAnswer(question.id, recommendation.id as string);
         } else {
             const recIds = Array.isArray(recommendation.id) ? recommendation.id : [recommendation.id];
-            const recommendedLabels = question.options
-                .filter(o => recIds.includes(o.id))
-                .map(o => o.label);
-            setAnswer(question.id, recommendedLabels);
+            setAnswer(question.id, recIds);
         }
         setShowAdvice(false);
     };
@@ -65,7 +60,7 @@ export const QuestionCard = () => {
     };
 
     const generateFinal = () => {
-        setStep(20);
+        setStep(100);
         let p = 0;
         const interval = setInterval(() => {
             p += 5;
@@ -74,7 +69,7 @@ export const QuestionCard = () => {
                 clearInterval(interval);
                 const generated = compileFiles(answers);
                 setFiles(generated);
-                setStep(21);
+                setStep(101);
                 confetti({
                     particleCount: 150,
                     spread: 70,
@@ -118,7 +113,7 @@ export const QuestionCard = () => {
                 </div>
             </div>
 
-            {/* Advice Section omitted for brevity as it remains same visually or use dark vars */}
+            {/* Advice Section */}
             <AnimatePresence>
                 {showAdvice && recommendation && (
                     <motion.div
@@ -160,15 +155,15 @@ export const QuestionCard = () => {
                     const displayDesc = localizedOpt?.desc || opt.desc;
 
                     const isSelected = question.type === "single"
-                        ? currentAnswer === opt.label
-                        : (Array.isArray(currentAnswer) ? currentAnswer : []).includes(opt.label);
+                        ? currentAnswer === opt.id
+                        : (Array.isArray(currentAnswer) ? currentAnswer : []).includes(opt.id);
 
                     return (
                         <motion.button
                             key={opt.id}
                             whileHover={{ scale: 1.01 }}
                             whileTap={{ scale: 0.99 }}
-                            onClick={() => handleSelect(opt.label)}
+                            onClick={() => handleSelect(opt.id)}
                             className={`group flex items-start gap-4 p-5 rounded-3xl border-2 text-left transition-all ${isSelected
                                 ? "border-indigo-600 bg-indigo-50/50 shadow-lg shadow-indigo-100"
                                 : "border-gray-100 hover:border-gray-200 bg-white"
@@ -195,6 +190,7 @@ export const QuestionCard = () => {
                     );
                 })}
             </div>
+
 
             <AnimatePresence>
                 {question.type === "text" && (
