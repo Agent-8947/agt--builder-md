@@ -10,12 +10,20 @@ export interface Question {
     block: string;
     title: string;
     subtitle?: string;
-    type: 'single' | 'multiple';
+    type: 'single' | 'multiple' | 'text';
     options: Option[];
     allowCustom?: boolean;
 }
 
 export const QUESTIONS: Question[] = [
+    {
+        id: 0,
+        block: "Миссия",
+        title: "Опишите идею проекта",
+        subtitle: "Это фундаментальный контекст, который определит поведение всех AI-агентов",
+        type: "text",
+        options: []
+    },
     {
         id: 1,
         block: "О проекте",

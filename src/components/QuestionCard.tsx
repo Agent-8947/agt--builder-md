@@ -1,33 +1,20 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Icon } from "./ui/Icon";
 import { useStore } from "@/store/useStore";
 import { QUESTIONS } from "@/constants/questions";
 import { compileFiles } from "@/lib/generator";
 import { getRecommendation } from "@/lib/recommendations";
+import { TRANSLATIONS } from "@/constants/translations";
 import confetti from "canvas-confetti";
 
 export const QuestionCard = () => {
-    const { step, setStep, answers, setAnswer, setFiles, setLoadingProgress } = useStore();
+    const { step, setStep, answers, setAnswer, setFiles, setLoadingProgress, language } = useStore();
+    const t = TRANSLATIONS[language];
     const [showAdvice, setShowAdvice] = useState(false);
-    const [customValue, setCustomValue] = useState("");
     const question = QUESTIONS[step];
-
-    useEffect(() => {
-        // Sync custom value with answer if it doesn't match predefined options
-        if (question?.allowCustom && answers[question.id]) {
-            const predefined = question.options.some(o => o.label === answers[question.id]);
-            if (!predefined) {
-                setCustomValue(answers[question.id]);
-            } else {
-                setCustomValue("");
-            }
-        } else {
-            setCustomValue("");
-        }
-    }, [step, question, answers]);
 
     if (!question) return null;
 
@@ -35,24 +22,21 @@ export const QuestionCard = () => {
     const currentAnswer = answers[question.id];
     const recommendation = getRecommendation(question.id, answers);
 
+    const OTHER_LABELS = ["Other (custom)", "Другое (свой вариант)", "Інше (свій варіант)"];
+
+    const isOtherSelected = typeof currentAnswer === 'string' && OTHER_LABELS.includes(currentAnswer);
+    const isCustomActive = isOtherSelected || (question.allowCustom && typeof currentAnswer === 'string' && !question.options.some(o => o.label === currentAnswer));
+
     const handleSelect = (label: string) => {
         if (question.type === "single") {
             setAnswer(question.id, label);
-            if (label !== "Другое (свой вариант)") {
-                setCustomValue("");
-            }
         } else {
-            const current = currentAnswer || [];
+            const current = Array.isArray(currentAnswer) ? currentAnswer : [];
             const updated = current.includes(label)
                 ? current.filter((v: string) => v !== label)
                 : [...current, label];
             setAnswer(question.id, updated);
         }
-    };
-
-    const handleCustomChange = (val: string) => {
-        setCustomValue(val);
-        setAnswer(question.id, val);
     };
 
     const applyRecommendation = () => {
@@ -70,8 +54,6 @@ export const QuestionCard = () => {
         }
         setShowAdvice(false);
     };
-
-    const isNextDisabled = !currentAnswer || (question.type === "multiple" && currentAnswer.length === 0) || (currentAnswer === "Другое (свой вариант)" && !customValue.trim());
 
     const handleNext = () => {
         setShowAdvice(false);
@@ -103,8 +85,6 @@ export const QuestionCard = () => {
         }, 80);
     };
 
-    const isOtherSelected = currentAnswer === "Другое (свой вариант)";
-
     return (
         <motion.div
             key={step}
@@ -123,7 +103,7 @@ export const QuestionCard = () => {
 
             <div className="flex justify-between items-center mb-10 text-xs font-black uppercase tracking-[0.2em] text-gray-400">
                 <span className="flex items-center gap-2">
-                    <Icon name="folder" size={14} /> {question.block}
+                    <Icon name="folder" size={14} /> {t.questions[question.id]?.block || question.block}
                 </span>
                 <div className="flex items-center gap-4">
                     <button
@@ -132,12 +112,13 @@ export const QuestionCard = () => {
                             }`}
                     >
                         <Icon name="sparkles" size={14} />
-                        <span className="font-black">Advice</span>
+                        <span className="font-black">{t.ui.advice}</span>
                     </button>
-                    <span className="bg-gray-100 px-3 py-1 rounded-full text-indigo-500 font-bold">Step {step + 1} / {QUESTIONS.length}</span>
+                    <span className="bg-gray-100 px-3 py-1 rounded-full text-indigo-500 font-bold">{t.ui.step} {step + 1} / {QUESTIONS.length}</span>
                 </div>
             </div>
 
+            {/* Advice Section omitted for brevity as it remains same visually or use dark vars */}
             <AnimatePresence>
                 {showAdvice && recommendation && (
                     <motion.div
@@ -151,13 +132,13 @@ export const QuestionCard = () => {
                                 <Icon name="lightbulb" size={24} />
                             </div>
                             <div className="flex-1">
-                                <h4 className="font-black text-lg mb-1">Recommendation</h4>
+                                <h4 className="font-black text-lg mb-1">{t.ui.recommendation}</h4>
                                 <p className="text-white/80 font-medium text-base mb-4 leading-relaxed">{recommendation.reason}</p>
                                 <button
                                     onClick={applyRecommendation}
                                     className="px-6 py-2 bg-white text-indigo-600 rounded-xl font-bold text-sm hover:bg-indigo-50 transition-colors shadow-lg"
                                 >
-                                    Apply Choice
+                                    {t.ui.apply}
                                 </button>
                             </div>
                         </div>
@@ -166,17 +147,21 @@ export const QuestionCard = () => {
             </AnimatePresence>
 
             <h2 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight text-gray-900 leading-[1.1]">
-                {question.title}
+                {t.questions[question.id]?.title || question.title}
             </h2>
-            {question.subtitle && (
-                <p className="text-xl text-gray-500 mb-10 font-medium">{question.subtitle}</p>
+            {(t.questions[question.id]?.subtitle || question.subtitle) && (
+                <p className="text-xl text-gray-500 mb-10 font-medium">{t.questions[question.id]?.subtitle || question.subtitle}</p>
             )}
 
             <div className={`grid gap-4 mt-8 ${question.id === 1 || question.id === 5 ? "md:grid-cols-2 lg:grid-cols-3" : "grid-cols-1"}`}>
-                {question.options.map((opt) => {
+                {question.type !== "text" && question.options.map((opt) => {
+                    const localizedOpt = t.questions[question.id]?.options?.[opt.id];
+                    const displayLabel = localizedOpt?.label || opt.label;
+                    const displayDesc = localizedOpt?.desc || opt.desc;
+
                     const isSelected = question.type === "single"
                         ? currentAnswer === opt.label
-                        : (currentAnswer || []).includes(opt.label);
+                        : (Array.isArray(currentAnswer) ? currentAnswer : []).includes(opt.label);
 
                     return (
                         <motion.button
@@ -195,9 +180,9 @@ export const QuestionCard = () => {
                             </div>
                             <div className="flex-1">
                                 <div className={`font-bold text-lg leading-tight ${isSelected ? "text-indigo-900" : "text-gray-700"}`}>
-                                    {opt.label}
+                                    {displayLabel}
                                 </div>
-                                {opt.desc && <div className="text-xs text-gray-400 mt-1 font-medium">{opt.desc}</div>}
+                                {displayDesc && <div className="text-xs text-gray-400 mt-1 font-medium">{displayDesc}</div>}
                             </div>
                             {opt.icon && (
                                 <Icon
@@ -212,18 +197,34 @@ export const QuestionCard = () => {
             </div>
 
             <AnimatePresence>
-                {question.allowCustom && isOtherSelected && (
+                {question.type === "text" && (
                     <motion.div
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 10 }}
                         className="mt-8"
                     >
-                        <label className="block text-xs font-black text-gray-400 uppercase tracking-widest mb-3 pl-2">Опишите ваш проект</label>
                         <textarea
-                            value={customValue}
-                            onChange={(e) => handleCustomChange(e.target.value)}
-                            placeholder="Например: SaaS платформа для управления логистикой..."
+                            value={currentAnswer || ""}
+                            onChange={(e) => setAnswer(question.id, e.target.value)}
+                            placeholder={t.ui.idea_placeholder}
+                            className="w-full p-8 bg-gray-50 border-2 border-gray-100 rounded-[2.5rem] text-xl font-medium focus:border-indigo-500 focus:bg-white transition-all outline-none min-h-[250px] shadow-inner"
+                        />
+                    </motion.div>
+                )}
+
+                {isCustomActive && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        className="mt-8"
+                    >
+                        <label className="block text-xs font-black text-gray-400 uppercase tracking-widest mb-3 pl-2">{t.ui.custom_label}</label>
+                        <textarea
+                            value={isOtherSelected ? "" : (currentAnswer as string)}
+                            onChange={(e) => setAnswer(question.id, e.target.value)}
+                            placeholder={t.ui.custom_placeholder}
                             className="w-full p-6 bg-gray-50 border-2 border-gray-100 rounded-[2rem] text-xl font-medium focus:border-indigo-500 focus:bg-white transition-all outline-none min-h-[120px]"
                         />
                     </motion.div>
@@ -240,14 +241,13 @@ export const QuestionCard = () => {
                     className={`px-8 py-4 rounded-2xl font-bold flex items-center gap-2 transition-all ${step === 0 ? "opacity-0 pointer-events-none" : "text-gray-400 hover:text-gray-800 hover:bg-gray-50"
                         }`}
                 >
-                    <Icon name="arrow-left" size={20} /> Back
+                    <Icon name="arrow-left" size={20} /> {t.ui.back}
                 </button>
                 <button
                     onClick={handleNext}
-                    disabled={isNextDisabled}
-                    className="px-12 py-4 bg-gray-900 text-white rounded-2xl font-bold text-lg hover:bg-black transition-all disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-3 shadow-xl shadow-gray-200"
+                    className="px-12 py-4 bg-gray-900 text-white rounded-2xl font-bold text-lg hover:bg-black transition-all flex items-center gap-3 shadow-xl shadow-gray-200"
                 >
-                    {step === QUESTIONS.length - 1 ? "Initialize" : "Continue"}
+                    {step === QUESTIONS.length - 1 ? t.ui.initialize : t.ui.continue}
                     <Icon name="arrow-right" size={20} />
                 </button>
             </div>
