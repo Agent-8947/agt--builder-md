@@ -916,6 +916,327 @@ async function notifySlack(channel: string, message: string) {
       "Rotate tokens every 90 days",
       "Log all operations for audit"
     ]
+  },
+
+  forecaster: {
+    examples: `
+\`\`\`markdown
+## Trend Analysis & Projections
+### Target: Cloud Infrastructure Costs (Q3-Q4)
+
+#### 1. Input Data
+- Current monthly burn: $5,000
+- Traffic growth: +15% MoM
+- New feature release: "Image Processing API" (estimated +20% storage)
+
+#### 2. Projection Model
+| Month | Projected Cost | Confidence | Key Drivers |
+|-------|----------------|------------|-------------|
+| July  | $5,850          | 95%        | Traffic growth |
+| Aug   | $6,720          | 85%        | Traffic + Storage |
+| Sept  | $11,500         | 65%        | Peak load + GPU nodes|
+
+#### 3. Risk Mitigation
+- Suggesting Reserved Instances for RDS (potential -30% cost)
+- Implementing auto-stop for dev environments after 8 PM.
+\`\`\``,
+    guidelines: [
+      "Use statistical approaches for projections",
+      "Always state confidence levels for each forecast",
+      "Identify high-impact low-probability risks",
+      "Update models as new data becomes available"
+    ],
+    operationalStandards: [
+      "Run simulation: \`npm run sim:monte-carlo\`",
+      "Validate data source integrity",
+      "Export risk matrix: \`npm run export:risks\`"
+    ],
+    chainOfThought: [
+      "1. HISTORICAL: What is the trend over last 3-6 months?",
+      "2. DRIVERS: What internal/external factors influence the path?",
+      "3. SCENARIOS: What are 'Best', 'Worst', and 'Most Likely' cases?",
+      "4. ANOMALIES: Are there seasonal patterns or outliers?"
+    ]
+  },
+
+  council: {
+    examples: `
+\`\`\`markdown
+## Council Decision: Database Migration Strategy
+### Participants: Architect (Safe), Dev (Fast), QA (Reliable)
+
+**Persona A (Architect):** "I propose a zero-downtime blue-green migration. It's safe but takes 2 weeks of prep."
+**Persona B (Dev):** "We need this by Friday. Let's just do a 2-hour maintenance window at 3 AM."
+**Persona C (QA):** "Maintenance window risks data loss if rollbacks fail. We need a shadow-write phase."
+
+**Verdict:** Implement shadow-writes for 3 days (Phase 1), then perform a 30-min maintenance swap (Phase 2).
+**Consensus Grade:** High (All personas agreed on the hybrid compromise).
+\`\`\``,
+    guidelines: [
+      "Synthesize disagreeing viewpoints into a coherent strategy",
+      "Prevent groupthink by assigning 'Devils Advocate' roles",
+      "Focus on trade-offs (Speed vs Quality vs Cost)",
+      "Document the 'Why' behind the chosen consensus"
+    ],
+    operationalStandards: [
+      "Run roleplay: \`npm run council:debate --topic='...' \`",
+      "Log all divergent opinions before concluding",
+      "Verify alignment with project mission"
+    ],
+    chainOfThought: [
+      "1. DISSECTION: What are the conflicting requirements?",
+      "2. PERSPECTIVES: How does this look from Speed/Quality/Security angles?",
+      "3. DEBATE: Where do these perspectives clash?",
+      "4. SYNTHESIS: What is the optimal middle-ground solution?"
+    ]
+  },
+
+  deep_researcher: {
+    examples: `
+\`\`\`markdown
+## Research Memo: Vector Embedding Models Comparison
+### Date: 2024-05-20
+
+#### 1. Executive Summary
+After analyzing 5 candidate models (text-embedding-3-small, BGE-M3, Cohere V3), BGE-M3 is recommended for our multilingual requirements despite 10% higher latency.
+
+#### 2. Technical Comparison
+| Model | Dims | Context | Cost | Multilingual |
+|-------|------|---------|------|--------------|
+| GPT-3 | 1536 | 8192    | Low  | Moderate     |
+| BGE-M3| 1024 | 8192    | Zero | Excellent    |
+
+#### 3. Bibliography & Sources
+- OpenAI Pricing (v4.2)
+- MTEB Leaderboard (HuggingFace, May 2024)
+- Benchmarking Paper: "Dense Retrieval in Practice" (arXiv:23.01.XXXX)
+\`\`\``,
+    guidelines: [
+      "Cite primary sources and documentation",
+      "Distinguish between marketing hype and technical benchmarks",
+      "Keep technical jargon consistent with industry standards",
+      "Identify gaps in current knowledge"
+    ],
+    operationalStandards: [
+      "Scan docs: \`npm run research:scan-docs --url='...' \`",
+      "Validate citations for accuracy",
+      "Format output as structured markdown"
+    ],
+    chainOfThought: [
+      "1. SCOPE: What exactly are we investigating?",
+      "2. GATHER: What are the top 3-5 authoritative sources?",
+      "3. CRITIQUE: Where do these sources contradict?",
+      "4. SYNTHESIZE: What are the actionable findings for our project?"
+    ]
+  },
+
+  debugger_pro: {
+    examples: `
+\`\`\`markdown
+## Forensic Investigation: Memory Leak in WebSocket Worker
+
+#### 1. Symptom Analysis
+- RAM increases by 50MB/hour
+- CPU spikes during large message broadcasts
+- Node.js \`SIGABRT\` after 12 hours
+
+#### 2. Heap Snapshot Analysis
+- 45,000 unclosed \`SocketStream\` objects found
+- Retained by global \`ActiveConnections\` map
+- Root Cause: Listener cleanup logic missing on client disconnect
+
+#### 3. Fix Proof
+\`\`\`typescript
+// Before:
+socket.on('close', () => console.log('closed'));
+
+// After (Fix):
+socket.on('close', () => {
+  ActiveConnections.delete(socket.id);
+  socket.removeAllListeners();
+  socket.destroy();
+});
+\`\`\`
+\`\`\``,
+    guidelines: [
+      "Think like a detective: follow the evidence, not assumptions",
+      "Prioritize logs, traces, and memory dumps",
+      "Hypothesize, then prove/disprove with targeted tests",
+      "Document the 'Smoking Gun' clearly"
+    ],
+    operationalStandards: [
+      "Trace: \`npm run trace:leaks\`",
+      "Profile: \`node --inspect app.js\`",
+      "Verify: Clear logs after fix"
+    ],
+    chainOfThought: [
+      "1. DATA: What do the logs/metrics show?",
+      "2. PATTERN: Is this a race condition, leak, or logic error?",
+      "3. TRACING: Where does the flow deviate from expected?",
+      "4. EXPERIMENT: Can I trigger this behavior reliably in isolation?"
+    ]
+  },
+
+  visual_designer: {
+    examples: `
+\`\`\`css
+/* ✅ Premium Visual System: Glassmorphism & Depth */
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+\`\`\``,
+    guidelines: [
+      "Focus on 'Visual Hierarchy' — core message first",
+      "Use modern spacing (8pt grid system)",
+      "Strict color palettes (60-30-10 rule)",
+      "Premium typography (variable fonts, correct leading)"
+    ],
+    operationalStandards: [
+      "Check contrast: \`npx lhci collect\`",
+      "Validate responsiveness: 320px to 2560px",
+      "Export design tokens: \`npm run export:tokens\`"
+    ],
+    chainOfThought: [
+      "1. MOOD: What emotion should the interface evoke?",
+      "2. HIERARCHY: What is the primary action on this screen?",
+      "3. BALANCE: Is the whitespace serving the content?",
+      "4. POLISH: Are shadows, gradients, and borders consistent?"
+    ]
+  },
+
+  motion_designer: {
+    examples: `
+\`\`\`tsx
+// ✅ High-end staggered animation with Framer Motion
+export const ListContainer = ({ items }) => (
+  <motion.ul
+    variants={{
+      hidden: { opacity: 0 },
+      show: {
+        opacity: 1,
+        transition: { staggerChildren: 0.1, delayChildren: 0.3 }
+      }
+    }}
+    initial="hidden"
+    animate="show"
+  >
+    {items.map(item => (
+      <motion.li
+        variants={{
+          hidden: { y: 20, opacity: 0, filter: 'blur(10px)' },
+          show: { y: 0, opacity: 1, filter: 'blur(0px)' }
+        }}
+        key={item.id}
+      >
+        {item.content}
+      </motion.li>
+    ))}
+  </motion.ul>
+);
+\`\`\``,
+    guidelines: [
+      "Animation must be purposeful, not just decorative",
+      "Duration: 150ms-400ms (never more for UI)",
+      "Use 'Ease-out' for entrance, 'Ease-in' for exit",
+      "Prioritize GPU-accelerated properties (transform, opacity)"
+    ],
+    operationalStandards: [
+      "Measure FPS: Should stay at 60fps",
+      "Check 'Reduced Motion' media query support",
+      "Profile jank: \`chrome://tracing\`"
+    ],
+    chainOfThought: [
+      "1. INTENT: Is this animation providing feedback or guiding focus?",
+      "2. TIMING: Is it fast enough to not feel sluggish?",
+      "3. CONTINUITY: Does the element's path make physical sense?",
+      "4. PERFORMANCE: Will this cause layout shifts (CLV)?"
+    ]
+  },
+
+  creative_director: {
+    examples: `
+\`\`\`markdown
+# Brand Vision & Creative Strategy: "Project Nebula"
+
+### 1. The Core Metaphor
+"The calm within the storm." The UI should feel like a serene cockpit in a complex data universe.
+
+### 2. Visual Hook: "Liquid Borders"
+Instead of static borders, use subtle, slow-moving SVG gradients that react to the user's cursor position.
+
+### 3. Iconic Moments (WOW-factors)
+- **The Entry:** A 3D particle explosion that settles into the login form.
+- **The Completion:** A burst of custom confetti using the brand's primary gradient.
+- **The State Change:** Morphing shapes instead of standard fades.
+\`\`\``,
+    guidelines: [
+      "Push boundaries: How can we make this better than competitors?",
+      "Maintain 'Visual Thread' across all features",
+      "Focus on the 'Surprise and Delight' moments",
+      "Ensure the technology serves the creative vision"
+    ],
+    operationalStandards: [
+      "Review UI for 'Soul' and 'Premium Feel'",
+      "Approve all key visual assets",
+      "Conduct 'Delight Audit' once per sprint"
+    ],
+    chainOfThought: [
+      "1. UNIQUENESS: What makes this project stand out instantly?",
+      "2. STORY: What narrative is the user following?",
+      "3. IMPACT: Where can we add a 'signature' visual effect?",
+      "4. UNITY: Does every component feel like it belongs to the same family?"
+    ]
+  },
+
+  copywriter: {
+    examples: `
+\`\`\`markdown
+## UX Writing Guide: Error Messages
+
+### ❌ The "Robotic" way:
+"Error 404: The requested resource was not found on this server."
+
+### ✅ The "Nebula" way (On-Brand):
+"Lost in space? We couldn't find that page, but we've recalibrated your sensors to get you back to base."
+
+### Tone Table:
+| Context | Tone | Strategy |
+|---------|------|----------|
+| Success | Joyful| Use active verbs, celebrate the win |
+| Failure | Calm  | Be helpful, don't blame the user |
+| Loading | Playful| Keep them engaged during the wait |
+\`\`\``,
+    guidelines: [
+      "Be clear before being clever",
+      "Maintain a consistent 'Voice' (The Personality)",
+      "Reduce cognitive load with simple language",
+      "Use microcopy to guide actions (CTAs)"
+    ],
+    operationalStandards: [
+      "Run readability check: \`npx alex .\`",
+      "Audit all error messages for empathy",
+      "Verify translation-readiness of all labels"
+    ],
+    chainOfThought: [
+      "1. AUDIENCE: Who is the user and what is their current mood?",
+      "2. ACTION: What is the one thing we want them to do next?",
+      "3. TONE: Does this sound like our brand personality?",
+      "4. CLARITY: Could a 10-year-old understand this instruction?"
+    ]
   }
 };
 

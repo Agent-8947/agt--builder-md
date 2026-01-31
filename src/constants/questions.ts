@@ -55,12 +55,17 @@ export const QUESTIONS: Question[] = [
         type: "multiple",
         options: [
             { id: "monolith", label: "Classic Monolith", desc: "Единая кодовая база, простота развертывания", icon: "box" },
-            { id: "modular_monolith", label: "Modular Monolith", desc: "Строгая изоляция модулей внутри одного репозитория", icon: "layout-grid" },
-            { id: "fsd", label: "Feature-Sliced Design (FSD)", desc: "Современный стандарт для масштабируемых Frontend-приложений", icon: "layers" },
-            { id: "monorepo", label: "Monorepo", desc: "Множество пакетов в одном репозитории (Turborepo, Nx, Lerna)", icon: "git-branch" },
-            { id: "microservices", label: "Microservices", desc: "Распределенная система независимых сервисов", icon: "share-2" },
-            { id: "hexagonal", label: "Hexagonal / Clean Architecture", desc: "Domain-Driven Design (DDD) и отделение логики от инфраструктуры", icon: "hexagon" },
-            { id: "serverless", label: "Serverless / Event-driven", desc: "Облачные функции и реактивная архитектура", icon: "zap" }
+            { id: "modular_monolith", label: "Modular Monolith", desc: "Строгая изоляция модулей в одном репозитории", icon: "boxes" },
+            { id: "fsd", label: "Feature-Sliced Design (FSD)", desc: "Стандарт для масштабируемых Frontend-приложений", icon: "layers" },
+            { id: "monorepo", label: "Monorepo", desc: "Множество пакетов в одном репозитории (Turborepo, Nx)", icon: "folder-tree" },
+            { id: "microservices", label: "Microservices", desc: "Распределенная система независимых сервисов", icon: "network" },
+            { id: "microfrontends", label: "Micro-frontends", desc: "Независимые фронтенд-приложения в одной оболочке", icon: "layout-grid" },
+            { id: "hexagonal", label: "Hexagonal / Clean", desc: "DDD и отделение логики от инфраструктуры", icon: "hexagon" },
+            { id: "serverless", label: "Serverless / Event-driven", desc: "Облачные функции и реактивная архитектура", icon: "zap" },
+            { id: "edge_computing", label: "Edge Computing", desc: "Воркеры и функции на границе сети (Edge)", icon: "globe" },
+            { id: "jamstack", label: "JAMstack", desc: "JavaScript, APIs и предрендеренный Markdown", icon: "file-code" },
+            { id: "multi_tenant", label: "Multi-tenant SaaS", desc: "Изоляция данных для множества организаций", icon: "users" },
+            { id: "offline_first", label: "Offline-first / PWA", desc: "Локальное хранение с синхронизацией (CRDTs)", icon: "wifi-off" }
         ]
     },
     {
@@ -108,7 +113,25 @@ export const QUESTIONS: Question[] = [
             { id: "langchain", label: "LangChain", desc: "Framework for AI agents/chains", icon: "link" },
             { id: "pytorch", label: "PyTorch", desc: "Deep learning research", icon: "flame" },
             { id: "react_native", label: "React Native", desc: "Cross-platform mobile apps", icon: "smartphone" },
-            { id: "flutter", label: "Flutter", desc: "UI toolkit for multi-platform", icon: "bird" }
+            { id: "flutter", label: "Flutter", desc: "UI toolkit for multi-platform", icon: "bird" },
+
+            // Design & Creative (New)
+            { id: "framer_motion", label: "Framer Motion", desc: "Advanced UI animations", icon: "sparkles" },
+            { id: "threejs", label: "Three.js", desc: "3D graphics for segment", icon: "box" },
+            { id: "gsap", label: "GSAP", desc: "Professional motion design", icon: "zap" },
+            { id: "figma_api", label: "Figma API", desc: "Design-to-code automation", icon: "figma" },
+
+            // Research & Data (New)
+            { id: "crawl4ai", label: "Crawl4AI", desc: "Agent-ready web scraping", icon: "search" },
+            { id: "puppeteer", label: "Puppeteer", desc: "Headless browser automation", icon: "chrome" },
+            { id: "pandas", label: "Pandas/NumPy", desc: "Data analysis & processing", icon: "bar-chart" },
+            { id: "elastic", label: "Elasticsearch", desc: "Full-text search engine", icon: "search-code" },
+
+            // Advanced Infrastructure (New)
+            { id: "aws", label: "AWS", desc: "Enterprise cloud services", icon: "cloud" },
+            { id: "gcp", label: "Google Cloud", desc: "AI & Data analytics platform", icon: "cloud-lightning" },
+            { id: "azure", label: "Azure", desc: "Microsoft cloud solutions", icon: "monitor" },
+            { id: "kubernetes", label: "Kubernetes", desc: "Container orchestration", icon: "blocks" }
         ]
     },
     {
@@ -163,7 +186,19 @@ export const QUESTIONS: Question[] = [
             // Research & Data Collection
             { id: "scout", label: "Web Scout", desc: "Поиск вакансий, скрапинг и глубокий сбор данных с веб-сайтов", icon: "search" },
             { id: "analyst", label: "Data Analyst", desc: "Структурирование данных, фильтрация вакансий и подготовка выводов", icon: "bar-chart" },
-            { id: "integrator", label: "Cloud Integrator", desc: "Интеграция с API: Google Drive, Notion, Slack", icon: "cloud-upload" }
+            { id: "integrator", label: "Cloud Integrator", desc: "Интеграция с API: Google Drive, Notion, Slack", icon: "cloud-upload" },
+
+            // Analysis & Forecasting (New)
+            { id: "forecaster", label: "Predictive Forecaster", desc: "Прогнозирование трендов, моделирование рисков и долгосрочные прогнозы", icon: "trending-up" },
+            { id: "council", label: "Agentic Council", desc: "Консилиум агентов: обсуждение и поиск консенсуса для сложных решений", icon: "users" },
+            { id: "deep_researcher", label: "Deep Researcher", desc: "Глубокий поиск, анализ научных статей и конкурентов", icon: "microscope" },
+            { id: "debugger_pro", label: "Forensic Debugger", desc: "Глубокая отладка: анализ утечек памяти, race conditions и трассировка стека", icon: "terminal" },
+
+            // Design & Creativity (New)
+            { id: "visual_designer", label: "Visual Designer", desc: "Создание эстетичных интерфейсов, работа с цветом, сетками и типографикой", icon: "palette" },
+            { id: "motion_designer", label: "Motion Architect", desc: "Сложные анимации, переходы и интерактивные микровзаимодействия", icon: "sparkles" },
+            { id: "creative_director", label: "Creative Director", desc: "Общая визуальная концепция, WOW-эффекты и нестандартные решения", icon: "wand-2" },
+            { id: "copywriter", label: "Content Strategist", desc: "Креативные тексты, интерфейсный копирайтинг (UX Writing) и Tone of Voice", icon: "pen-tool" }
         ]
     },
     {

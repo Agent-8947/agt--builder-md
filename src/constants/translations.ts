@@ -87,18 +87,71 @@ export const TRANSLATIONS: Record<'en' | 'ru' | 'uk', TranslationKeys> = {
                     fsd: { label: "Feature-Sliced Design (FSD)", desc: "Modern standard for scalable Frontend" },
                     monorepo: { label: "Monorepo", desc: "Multiple packages in one repo (Turborepo, Nx)" },
                     microservices: { label: "Microservices", desc: "Distributed system of independent services" },
+                    microfrontends: { label: "Micro-frontends", desc: "Independent frontend apps in one shell" },
                     hexagonal: { label: "Hexagonal / Clean", desc: "DDD and isolation of logic from infra" },
-                    serverless: { label: "Serverless / Event-driven", desc: "Cloud functions and reactive arch" }
+                    serverless: { label: "Serverless / Event-driven", desc: "Cloud functions and reactive arch" },
+                    edge_computing: { label: "Edge Computing", desc: "Workers and functions at the network edge" },
+                    jamstack: { label: "JAMstack", desc: "JavaScript, APIs, and Pre-rendered Markup" },
+                    multi_tenant: { label: "Multi-tenant SaaS", desc: "Data isolation for multiple organizations" },
+                    offline_first: { label: "Offline-first / PWA", desc: "Local-first data with sync (CRDTs)" }
                 }
             },
-            3: { title: "Tech stack?", block: "About Project" },
+            3: {
+                title: "Tech stack?", block: "About Project",
+                options: {
+                    framer_motion: { label: "Framer Motion", desc: "Advanced UI animations" },
+                    threejs: { label: "Three.js", desc: "3D graphics for web" },
+                    gsap: { label: "GSAP", desc: "Professional motion design" },
+                    figma_api: { label: "Figma API", desc: "Design-to-code automation" },
+                    crawl4ai: { label: "Crawl4AI", desc: "Agent-ready web scraping" },
+                    puppeteer: { label: "Puppeteer", desc: "Headless browser automation" },
+                    pandas: { label: "Pandas/NumPy", desc: "Data analysis & processing" },
+                    elastic: { label: "Elasticsearch", desc: "Full-text search engine" },
+                    aws: { label: "AWS", desc: "Enterprise cloud services" },
+                    gcp: { label: "Google Cloud", desc: "AI & Data analytics platform" },
+                    azure: { label: "Azure", desc: "Microsoft cloud solutions" },
+                    kubernetes: { label: "Kubernetes", desc: "Container orchestration" }
+                }
+            },
             4: {
                 title: "Dependency management?", block: "About Project",
                 options: {
                     none: { label: "Not using" }
                 }
             },
-            5: { title: "Select AI Agents", block: "Agent Team", subtitle: "Select units for your autonomous fleet" },
+            5: {
+                title: "Select AI Agents", block: "Agent Team", subtitle: "Select units for your autonomous fleet",
+                options: {
+                    planner: { label: "Strategic Planner", desc: "Orchestration, task decomposition & state management" },
+                    architect: { label: "System Architect", desc: "Design patterns & system structure" },
+                    codewriter: { label: "Code Writer", desc: "Implementation of new features" },
+                    refactorer: { label: "Code Refactorer", desc: "Optimization & technical debt cleanup" },
+                    logic_expert: { label: "Logic Specialist", desc: "Complex business rules & algorithms" },
+                    tester: { label: "QA Automation", desc: "Unit, E2E, and integration tests" },
+                    reviewer: { label: "Code Reviewer", desc: "Peer reviews & quality gates" },
+                    bugfixer: { label: "Bug Hunter", desc: "Identification & patching of defects" },
+                    performance: { label: "Perf Optimizer", desc: "Bottleneck analysis & profiling" },
+                    security: { label: "Security Auditor", desc: "Vulnerability & dependency auditing" },
+                    ai_expert: { label: "AI Integrationist", desc: "LLM, RAG & prompt engineering" },
+                    data_engineer: { label: "Data Engineer", desc: "Data pipelines & transformations" },
+                    devops: { label: "DevOps Engineer", desc: "CI/CD, Docker & Cloud infra" },
+                    git_manager: { label: "Git Librarian", desc: "Branching, merges & git flow" },
+                    release_manager: { label: "Release Manager", desc: "Version control & deployments" },
+                    documenter: { label: "Tech Writer", desc: "Internal & external documentation" },
+                    ui_specialist: { label: "UI/UX Auditor", desc: "Accessibility & layout consistency" },
+                    scout: { label: "Web Scout", desc: "Web scraping and deep data collection" },
+                    analyst: { label: "Data Analyst", desc: "Data structuring and preparation of findings" },
+                    integrator: { label: "Cloud Integrator", desc: "Integration with Google Drive, Notion, Slack" },
+                    forecaster: { label: "Predictive Forecaster", desc: "Trend identification and risk modeling" },
+                    council: { label: "Agentic Council", desc: "Multi-persona discussion and consensus" },
+                    deep_researcher: { label: "Deep Researcher", desc: "Academic and market research" },
+                    debugger_pro: { label: "Forensic Debugger", desc: "Memory leaks and stack trace analysis" },
+                    visual_designer: { label: "Visual Designer", desc: "Aesthetic interfaces and typography" },
+                    motion_designer: { label: "Motion Architect", desc: "Complex animations and interactions" },
+                    creative_director: { label: "Creative Director", desc: "Visual concept and WOW-effects" },
+                    copywriter: { label: "Content Strategist", desc: "UX Writing and brand voice" }
+                }
+            },
             6: {
                 title: "FS Create permission?", block: "Permissions",
                 options: {
@@ -299,20 +352,73 @@ export const TRANSLATIONS: Record<'en' | 'ru' | 'uk', TranslationKeys> = {
                     monolith: { label: "Классический монолит", desc: "Единая кодовая база" },
                     modular_monolith: { label: "Модульный монолит", desc: "Изоляция модулей в одном репозитории" },
                     fsd: { label: "Feature-Sliced Design (FSD)", desc: "Стандарт для масштабируемого Frontend" },
-                    monorepo: { label: "Монорепозиторий", desc: "Множество пакетов в одном репозитории" },
+                    monorepo: { label: "Монорепозиторий", desc: "Множество пакетов в одном репозитории (Turborepo, Nx)" },
                     microservices: { label: "Микросервисы", desc: "Распределенная система сервисов" },
+                    microfrontends: { label: "Микро-фронтенды", desc: "Независимые фронтенд-приложения в одной оболочке" },
                     hexagonal: { label: "Hexagonal / Clean", desc: "DDD и разделение логики и инфраструктуры" },
-                    serverless: { label: "Serverless / Event-driven", desc: "Облачные функции и реактивная архитектура" }
+                    serverless: { label: "Serverless / Event-driven", desc: "Облачные функции и реактивная архитектура" },
+                    edge_computing: { label: "Edge Computing", desc: "Воркеры и функции на границе сети" },
+                    jamstack: { label: "JAMstack", desc: "JavaScript, APIs и предрендеренный Markdown" },
+                    multi_tenant: { label: "Multi-tenant SaaS", desc: "Изоляция данных для множества организаций" },
+                    offline_first: { label: "Offline-first / PWA", desc: "Локальное хранение с синхронизацией (CRDTs)" }
                 }
             },
-            3: { title: "Технологический стек?", block: "О проекте" },
+            3: {
+                title: "Технологический стек?", block: "О проекте",
+                options: {
+                    framer_motion: { label: "Framer Motion", desc: "Продвинутая анимация интерфейса" },
+                    threejs: { label: "Three.js", desc: "3D графика для веба" },
+                    gsap: { label: "GSAP", desc: "Профессиональный motion дизайн" },
+                    figma_api: { label: "Figma API", desc: "Автоматизация дизайна в код" },
+                    crawl4ai: { label: "Crawl4AI", desc: "Веб-скрапинг для AI-агентов" },
+                    puppeteer: { label: "Puppeteer", desc: "Автоматизация браузера" },
+                    pandas: { label: "Pandas/NumPy", desc: "Анализ и обработка данных" },
+                    elastic: { label: "Elasticsearch", desc: "Поисковый движок" },
+                    aws: { label: "AWS", desc: "Облачные сервисы Enterprise уровня" },
+                    gcp: { label: "Google Cloud", desc: "Платформа для AI и аналитики" },
+                    azure: { label: "Azure", desc: "Облачные решения Microsoft" },
+                    kubernetes: { label: "Kubernetes", desc: "Оркестрация контейнеров" }
+                }
+            },
             4: {
                 title: "Управление зависимостями?", block: "О проекте",
                 options: {
                     none: { label: "Не использую" }
                 }
             },
-            5: { title: "Выберите AI-агентов", block: "Команда", subtitle: "Выберите юнитов для вашего флота" },
+            5: {
+                title: "Выберите AI-агентов", block: "Команда", subtitle: "Выберите юнитов для вашего флота",
+                options: {
+                    planner: { label: "Strategic Planner", desc: "Оркестрация, декомпозиция задач и управление состоянием" },
+                    architect: { label: "System Architect", desc: "Паттерны проектирования и структура системы" },
+                    codewriter: { label: "Code Writer", desc: "Имплементация новых функций" },
+                    refactorer: { label: "Code Refactorer", desc: "Оптимизация и очистка технического долга" },
+                    logic_expert: { label: "Logic Specialist", desc: "Сложные бизнес-правила и алгоритмы" },
+                    tester: { label: "QA Automation", desc: "Unit, E2E и интеграционные тесты" },
+                    reviewer: { label: "Code Reviewer", desc: "Peer reviews и ворота качества" },
+                    bugfixer: { label: "Bug Hunter", desc: "Идентификация и исправление дефектов" },
+                    performance: { label: "Perf Optimizer", desc: "Анализ узких мест и профилирование" },
+                    security: { label: "Security Auditor", desc: "Аудит уязвимостей и зависимостей" },
+                    ai_expert: { label: "AI Integrationist", desc: "LLM, RAG и промпт-инжиниринг" },
+                    data_engineer: { label: "Data Engineer", desc: "Пайплайны данных и трансформации" },
+                    devops: { label: "DevOps Engineer", desc: "CI/CD, Docker и облачная инфраструктура" },
+                    git_manager: { label: "Git Librarian", desc: "Ветвление, слияния и git flow" },
+                    release_manager: { label: "Release Manager", desc: "Контроль версий и деплой" },
+                    documenter: { label: "Tech Writer", desc: "Внутренняя и внешняя документация" },
+                    ui_specialist: { label: "UI/UX Auditor", desc: "Доступность и консистентность лейаута" },
+                    scout: { label: "Web Scout", desc: "Веб-скрапинг и глубокий сбор данных" },
+                    analyst: { label: "Data Analyst", desc: "Структурирование данных и подготовка выводов" },
+                    integrator: { label: "Cloud Integrator", desc: "Интеграция с Google Drive, Notion, Slack" },
+                    forecaster: { label: "Predictive Forecaster", desc: "Прогнозирование трендов и моделирование рисков" },
+                    council: { label: "Agentic Council", desc: "Консилиум агентов и поиск консенсуса" },
+                    deep_researcher: { label: "Deep Researcher", desc: "Академические и рыночные исследования" },
+                    debugger_pro: { label: "Forensic Debugger", desc: "Анализ утечек памяти и трассировка стека" },
+                    visual_designer: { label: "Visual Designer", desc: "Эстетичные интерфейсы и типографика" },
+                    motion_designer: { label: "Motion Architect", desc: "Сложные анимации и взаимодействия" },
+                    creative_director: { label: "Creative Director", desc: "Визуальная концепция и WOW-эффекты" },
+                    copywriter: { label: "Content Strategist", desc: "UX Writing и голос бренда" }
+                }
+            },
             6: {
                 title: "Права на создание?", block: "Права",
                 options: {
@@ -513,20 +619,73 @@ export const TRANSLATIONS: Record<'en' | 'ru' | 'uk', TranslationKeys> = {
                     monolith: { label: "Класичний моноліт", desc: "Єдина кодова база" },
                     modular_monolith: { label: "Модульний моноліт", desc: "Ізоляція модулів в одному репозиторії" },
                     fsd: { label: "Feature-Sliced Design (FSD)", desc: "Стандарт для великих Frontend додатків" },
-                    monorepo: { label: "Монорепозиторій", desc: "Багато пакетів в одному репозиторії" },
-                    microservices: { label: "Мікросервіси", desc: "Розподілена система сервісів" },
+                    monorepo: { label: "Монорепозиторій", desc: "Багато пакетів в одному репозиторії (Turborepo, Nx)" },
+                    microservices: { label: "Мікросервіси", desc: "Розподілена система незалежних сервісів" },
+                    microfrontends: { label: "Мікро-фронтенди", desc: "Незалежні фронтенд-додатки в одній оболонці" },
                     hexagonal: { label: "Hexagonal / Clean", desc: "DDD та відокремлення логіки від інфраструктури" },
-                    serverless: { label: "Serverless / Event-driven", desc: "Хмарні функції та реактивна архітектура" }
+                    serverless: { label: "Serverless / Event-driven", desc: "Хмарні функції та реактивна архітектура" },
+                    edge_computing: { label: "Edge Computing", desc: "Воркери та функції на межі мережі" },
+                    jamstack: { label: "JAMstack", desc: "JavaScript, APIs та предрендерений Markdown" },
+                    multi_tenant: { label: "Multi-tenant SaaS", desc: "Ізоляція даних для багатьох організацій" },
+                    offline_first: { label: "Offline-first / PWA", desc: "Локальне зберігання з синхронізацією (CRDTs)" }
                 }
             },
-            3: { title: "Технологічний стек?", block: "Про проєкт" },
+            3: {
+                title: "Технологічний стек?", block: "Про проєкт",
+                options: {
+                    framer_motion: { label: "Framer Motion", desc: "Просунута анімація інтерфейсу" },
+                    threejs: { label: "Three.js", desc: "3D графіка для вебу" },
+                    gsap: { label: "GSAP", desc: "Професійний motion дизайн" },
+                    figma_api: { label: "Figma API", desc: "Автоматизація дизайну в код" },
+                    crawl4ai: { label: "Crawl4AI", desc: "Веб-скрапінг для AI-агентів" },
+                    puppeteer: { label: "Puppeteer", desc: "Автоматизація браузера" },
+                    pandas: { label: "Pandas/NumPy", desc: "Аналіз та обробка даних" },
+                    elastic: { label: "Elasticsearch", desc: "Пошуковий движок" },
+                    aws: { label: "AWS", desc: "Хмарні сервіси Enterprise рівня" },
+                    gcp: { label: "Google Cloud", desc: "Платформа для AI та аналітики" },
+                    azure: { label: "Azure", desc: "Хмарні рішення Microsoft" },
+                    kubernetes: { label: "Kubernetes", desc: "Оркестрація контейнерів" }
+                }
+            },
             4: {
                 title: "Управління залежностями?", block: "Про проєкт",
                 options: {
                     none: { label: "Не використовую" }
                 }
             },
-            5: { title: "Оберіть AI-агентів", block: "Команда", subtitle: "Оберіть юнітів для вашого флоту" },
+            5: {
+                title: "Оберіть AI-агентів", block: "Команда", subtitle: "Оберіть юнітів для вашого флоту",
+                options: {
+                    planner: { label: "Strategic Planner", desc: "Оркестрація, декомпозиція задач та управління станом" },
+                    architect: { label: "System Architect", desc: "Патерни проектування та структура системи" },
+                    codewriter: { label: "Code Writer", desc: "Імплементація нових функцій" },
+                    refactorer: { label: "Code Refactorer", desc: "Оптимізація та очищення технічного боргу" },
+                    logic_expert: { label: "Logic Specialist", desc: "Складні бізнес-правила та алгоритми" },
+                    tester: { label: "QA Automation", desc: "Unit, E2E та інтеграційні тести" },
+                    reviewer: { label: "Code Reviewer", desc: "Peer reviews та ворота якості" },
+                    bugfixer: { label: "Bug Hunter", desc: "Ідентифікація та виправлення дефектів" },
+                    performance: { label: "Perf Optimizer", desc: "Аналіз вузьких місць та профілювання" },
+                    security: { label: "Security Auditor", desc: "Аудит вразливостей та залежностей" },
+                    ai_expert: { label: "AI Integrationist", desc: "LLM, RAG та промпт-інжиніринг" },
+                    data_engineer: { label: "Data Engineer", desc: "Пайплайни даних та трансформації" },
+                    devops: { label: "DevOps Engineer", desc: "CI/CD, Docker та хмарна інфраструктура" },
+                    git_manager: { label: "Git Librarian", desc: "Гілкування, злиття та git flow" },
+                    release_manager: { label: "Release Manager", desc: "Контроль версій та деплой" },
+                    documenter: { label: "Tech Writer", desc: "Внутрішня та зовнішня документація" },
+                    ui_specialist: { label: "UI/UX Auditor", desc: "Доступність та консистентність верстки" },
+                    scout: { label: "Web Scout", desc: "Веб-скрапінг та глибокий збір даних" },
+                    analyst: { label: "Data Analyst", desc: "Структурування даних та підготовка висновків" },
+                    integrator: { label: "Cloud Integrator", desc: "Інтеграція з Google Drive, Notion, Slack" },
+                    forecaster: { label: "Predictive Forecaster", desc: "Прогнозування трендів та моделювання ризиків" },
+                    council: { label: "Agentic Council", desc: "Консиліум агентів та пошук консенсусу" },
+                    deep_researcher: { label: "Deep Researcher", desc: "Академічні та ринкові дослідження" },
+                    debugger_pro: { label: "Forensic Debugger", desc: "Аналіз витоків пам'яті та трасування стеку" },
+                    visual_designer: { label: "Visual Designer", desc: "Естетичні інтерфейси та типографіка" },
+                    motion_designer: { label: "Motion Architect", desc: "Складні анімації та взаємодії" },
+                    creative_director: { label: "Creative Director", desc: "Візуальна концепція та WOW-ефекти" },
+                    copywriter: { label: "Content Strategist", desc: "UX Writing та голос бренду" }
+                }
+            },
             6: {
                 title: "Права на створення?", block: "Права",
                 options: {

@@ -574,6 +574,36 @@ export const getRecommendation = (
                 agents.push("integrator");
             }
 
+            // New: Forecasting, Council, Research & Advanced Debugging
+            if (idea.includes("forecast") || idea.includes("прогноз") || idea.includes("trend") || idea.includes("тренд") || idea.includes("risk") || idea.includes("риск")) {
+                agents.push("forecaster");
+            }
+            if (idea.includes("discuss") || idea.includes("obsujd") || idea.includes("обсужд") || idea.includes("debate") || idea.includes("consensus") || idea.includes("консенсус") || idea.includes("council")) {
+                agents.push("council");
+            }
+            if (idea.includes("research") || idea.includes("исслед") || idea.includes("market") || idea.includes("рынок") || idea.includes("paper") || idea.includes("статьи")) {
+                agents.push("deep_researcher");
+            }
+            if (idea.includes("debug") || idea.includes("trace") || idea.includes("отладк") || idea.includes("forensic") || idea.includes("ошибк") || idea.includes("leak")) {
+                if (!agents.includes("bugfixer")) agents.push("bugfixer");
+                agents.push("debugger_pro");
+            }
+
+            // New: Design & Creative
+            if (idea.includes("design") || idea.includes("дизайн") || idea.includes("interface") || idea.includes("интерфейс") || idea.includes("красив") || idea.includes("beauty") || idea.includes("aesthetic")) {
+                agents.push("visual_designer");
+            }
+            if (idea.includes("animation") || idea.includes("анимация") || idea.includes("motion") || idea.includes("эффект") || idea.includes("wow") || idea.includes("transition")) {
+                agents.push("motion_designer");
+                if (!agents.includes("visual_designer")) agents.push("visual_designer");
+            }
+            if (idea.includes("creative") || idea.includes("креатив") || idea.includes("brand") || idea.includes("бренд") || idea.includes("style") || idea.includes("стиль")) {
+                agents.push("creative_director");
+            }
+            if (idea.includes("текст") || idea.includes("text") || idea.includes("copy") || idea.includes("копирайт") || idea.includes("писат") || idea.includes("story")) {
+                agents.push("copywriter");
+            }
+
             if (q1 === "saas" || q1 === "web_full") {
                 if (!agents.includes("tester")) agents.push("tester");
             }

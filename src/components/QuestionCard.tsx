@@ -198,7 +198,7 @@ export const QuestionCard = () => {
                 <p className="text-xl text-gray-500 mb-10 font-medium">{t.questions[question.id]?.subtitle || question.subtitle}</p>
             )}
 
-            <div className={`grid gap-4 mt-8 ${question.id === 1 || question.id === 5 ? "md:grid-cols-2 lg:grid-cols-3" : "grid-cols-1"}`}>
+            <div className={`grid gap-4 mt-8 ${question.id === 1 || question.id === 2 || question.id === 3 || question.id === 5 ? "md:grid-cols-2 lg:grid-cols-3" : "grid-cols-1"}`}>
                 {question.type !== "text" && question.options.map((opt) => {
                     const localizedOpt = t.questions[question.id]?.options?.[opt.id];
                     const displayLabel = localizedOpt?.label || opt.label;
